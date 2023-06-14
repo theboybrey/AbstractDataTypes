@@ -1,11 +1,13 @@
-public class BinaryTree<T> {
+import java.util.Scanner;
+
+public class BinaryTree<T extends Comparable<T>> {
     private TreeNode<T> root;
 
     public BinaryTree() {
         root = null;
     }
 
-    private static class TreeNode<T> {
+    private static class TreeNode<T extends Comparable<T>> {
         T data;
         TreeNode<T> left;
         TreeNode<T> right;
@@ -51,6 +53,49 @@ public class BinaryTree<T> {
             return containsNode(root.left, data);
         } else {
             return containsNode(root.right, data);
+        }
+    }
+
+    public static void main(String[] args) {
+        BinaryTree<Integer> binaryTree = new BinaryTree<>();
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        int number;
+
+        System.out.println("Enter numbers to insert into the binary tree (enter 'done' to stop):");
+
+        while (true) {
+            input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            try {
+                number = Integer.parseInt(input);
+                binaryTree.insert(number);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number or 'done' to stop.");
+            }
+        }
+
+        System.out.println("Binary Tree contains:");
+
+        while (true) {
+            System.out.print("Enter a number to check if it is present in the tree (enter 'done' to exit): ");
+            input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            try {
+                number = Integer.parseInt(input);
+                boolean contains = binaryTree.contains(number);
+                System.out.println("Binary Tree contains " + number + ": " + contains);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number or 'done' to exit.");
+            }
         }
     }
 }
